@@ -47,7 +47,7 @@
                 <div id="bd-docs-nav" class="collapse show" >
                     <div class="bd-links">
                         <ul class="list-group" data-bind="foreach: filteredMarkers">
-                                <li class="list-group-item" data-bind="text: title"></li>   
+                                <li class="list-group-item" data-bind="text: title,click:function(index) { $parent.itemClicked($index) }"></li>   
                         </ul>
                     </div>
                 </div>

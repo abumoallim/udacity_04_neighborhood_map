@@ -30,6 +30,8 @@ function viewModel() {
   //button for drawing tools
   self.buttonText = ko.observable("Drawing Tools");
 
+  
+
   //initializing map and markers
   self.initMap = function() {
       // This global polygon variable is to ensure only ONE polygon is rendered.
@@ -58,6 +60,11 @@ function viewModel() {
       self.toggleData = function() {
         toggleDrawing(drawingManager);
       }
+
+      self.itemClicked = function(index) {
+        console.log(index);
+        populateInfoWindow(self.markers()[index()], largeInfowindow);
+      }; 
 
       //creating map instance
       map = new google.maps.Map(document.getElementById('map'), {
@@ -234,7 +241,7 @@ function populateInfoWindow(marker, largeInfowindow) {
           largeInfowindow.open(map, marker);
 
           largeInfowindow.addListener('closeclick', function() {
-              infoWindow.marker = null;
+            largeInfowindow.marker = null;
           });
       }
 }
