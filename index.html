@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+
+    <title>Neighborhood Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Custom styles for this template -->
+    <link href="css/style.css" rel="stylesheet">
+
+     <!-- Custom styles for this template -->
+     <link href="css/style.css" rel="stylesheet">
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+        crossorigin="anonymous">
+
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row flex-xl-nowrap">
+            <div class="col-12 col-md-3 col-xl-2 bd-sidebar">
+                    <input id="toggle-drawing" class="btn btn-primary" type="button" value="Drawing Tools"  data-bind="textInput:buttonText,click:toggleData"/>
+                    <div>OR</div>
+                <form class="bd-search d-flex align-items-center">
+                    
+                    <span class="algolia-autocomplete" style="position: relative; display: inline-block; direction: ltr;">                        <input class="form-control ds-input" id="search-input" placeholder="Search..." autocomplete="off" spellcheck="false" role="combobox"
+                            aria-autocomplete="list" aria-expanded="false" aria-owns="algolia-autocomplete-listbox-0" style="position: relative; vertical-align: top;"
+                            dir="auto" type="search" data-bind="textInput: search, valueUpdate: 'afterkeydown'">
+                        <span class="ds-dropdown-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none; right: auto;"
+                            role="listbox" id="algolia-autocomplete-listbox-0">
+                            <div class="ds-dataset-1"></div>
+                        </span>
+                    </span>
+                    <button class="btn btn-link bd-search-docs-toggle d-md-none p-0 ml-3 collapsed" type="button" data-toggle="collapse" data-target="#bd-docs-nav"
+                        aria-controls="bd-docs-nav" aria-expanded="false" aria-label="Toggle docs navigation">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" width="30" height="30" focusable="false">
+                            <title>Menu</title>
+                            <path stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-miterlimit="10"
+                                d="M4 7h22M4 15h22M4 23h22"></path>
+                        </svg>
+                    </button>
+                </form>
+                <div id="bd-docs-nav" class="collapse show" >
+                    <div class="bd-links">
+                        <ul class="list-group" data-bind="foreach: filteredMarkers">
+                                <li class="list-group-item" data-bind="text: title"></li>   
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <main class="col-12 col-md-9 col-xl-10" role="main">
+                <div id="map">Google Maps did not load properly. Kindly refresh the page to retry.</div>            </main>
+            </div>
+    </div>
+
+    <!-- Jquery and Ajax -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+
+
+    <!-- Knockout JS -->
+    <script src="js/knockout-3.4.2.js"></script>
+
+    <!-- specific JS -->
+    <script src="js/main.js"></script>
+
+    <!-- Google Maps -->
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBchQu2qHBNjeHnePBLOZxkY6k5KhNUio8&v=3&libraries=geometry,drawing&callback=initMap">
+    </script>
+
+</body>
+
+</html>
