@@ -197,55 +197,66 @@ function addMarkers(locations,map,markers,defaultIcon,largeInfowindow,highlighte
 // one infowindow which will open at the marker that is clicked, and populate based
 // on that markers position.
 function populateInfoWindow(marker, largeInfowindow) {
-  // Check to make sure the infowindow is not already opened on this marker.
-        if (largeInfowindow.marker != marker) {
-          // nothing to do if already highlighted marker is clicked
-          largeInfowindow.setContent('Loading...');
-          largeInfowindow.marker = marker;
-          var htmlContent = '<div class="info-window">' +
-              '<h4 class="title">' + marker.title + '</h4>';
-          // Foursquare API Client
-          var fourSquareId = "UXXQHWQVCYFFAKZEGXTVRHAHEE4BSK3CK5HYBSN022IYYFLZ";
-          var fourSquareSecret = "AXRXEJK0USQO1ICOL22QLMWSRLEPV3QVIENPMNWNGEPAYPAR";
-          // URL for Foursquare API
-          var apiUrl = 'https://api.foursquare.com/v2/venues/search?' +
-              'll=' + marker.position.lat() + ',' + marker.position.lng() +
-              '&query=' + marker.title +
-              '&v=20180323' +
-              '&client_id=' + fourSquareId +
-              '&client_secret=' + fourSquareSecret;
-          // Foursquare API
-          $.getJSON(apiUrl).done(function(marker) {
-              if(!marker.response.venues) {
-                largeInfowindow.setContent(htmlContent +
-                                        '<p>No extra info found.</p>');
-                  return null;
-              }
-              let response = marker.response.venues[0];
-              var lat = response.location.lat;
-              var lng = response.location.lng;
-              var address = response.location.address ||
-                  response.location.formattedAddress[0];
+  //checking if window is not open for same marker and if yes than dont call the api.
+  if (largeInfowindow.marker != marker) {
+    // nothing to do if already highlighted marker is clicked
+    largeInfowindow.setContent('Loading data...');
 
-              var htmlContentFourSquare = '<p><strong>Address:</strong> ' +
-                  address + '<br><strong>Lat:</strong> ' + lat +
-                  '<br><strong>Lng:</strong> ' + lng + '</p></div>';
+    //initializing current marker to largeInfoWindow marker
+    largeInfowindow.marker = marker;
 
-                  largeInfowindow.setContent(htmlContent + htmlContentFourSquare);
-          }).fail(function() {
-              largeInfowindow.setContent("Erred while fetching data from the Foursquare API." +
-                                         " Kindly refresh the page to retry.");
+    // Foursquare API Client
+    var fourSquareId = "UXXQHWQVCYFFAKZEGXTVRHAHEE4BSK3CK5HYBSN022IYYFLZ";
+    var fourSquareSecret = "AXRXEJK0USQO1ICOL22QLMWSRLEPV3QVIENPMNWNGEPAYPAR";
 
-          });
+    // URL for Foursquare API
+    var apiUrl = 'https://api.foursquare.com/v2/venues/search?' +
+    'll=' + marker.position.lat() + ',' + marker.position.lng() +
+    '&query=' + marker.title +
+    '&client_id=' + fourSquareId +
+    '&client_secret=' + fourSquareSecret +
+    '&v=20180323';
 
-          largeInfowindow.open(map, marker);
+    var htmlContent = '<div>' +
+                      '<h4>' + marker.title + '</h4>';
 
-          largeInfowindow.addListener('closeclick', function() {
-            largeInfowindow.marker = null;
-          });
-      }
+    //Ajax call for JSON
+    $.getJSON(apiUrl).done(function(marker) {
+      //if foursquare returning venues for particular location
+        if(marker.response.venues.length>0) {
+          let response = marker.response.venues[0];
+          let htmlContentFoursquare =
+          '<h5> Category : ' + 
+            response.categories[0].shortName +
+          '</h5>' + 
+          '<div>' +
+          '<h6> Address: </h6>' +
+          '<p>'+ 
+            response.location.formattedAddress[0]+"<br>"+
+            response.location.formattedAddress[1]+"<br>"+
+            response.location.formattedAddress[2]+"<br>"+
+          '</p>' + 
+          '</div>' + 
+          '</div>';
+          largeInfowindow.setContent(htmlContent + htmlContentFoursquare);
+        }else{
+          largeInfowindow.setContent("No Information Found");
+        }
+    }).fail(function() {
+        largeInfowindow.setContent("There was an issue loading the Foursquare API." +
+                                   "Kindly refresh the page to retry.");
+
+    });
 }
 
+    //This will show info window with particular marker on map
+    largeInfowindow.open(map, marker);
+
+    //Closing marker when X is clicked on window
+    largeInfowindow.addListener('closeclick', function() {
+      largeInfowindow.marker = null;
+    });
+}
 
 // This function takes in a COLOR, and then creates a new marker
 // icon of that color. The icon will be 21 px wide by 34 high, have an origin
